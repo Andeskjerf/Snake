@@ -24,3 +24,7 @@ body {
 .fruit {
   background-color: red;
 }
+
+h3, h1 {
+	color: white;
+}
