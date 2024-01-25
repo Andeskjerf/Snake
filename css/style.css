@@ -1,21 +1,26 @@
 body {
-	background-color: #181A1B
+  background-color: #181a1b;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
 }
 
 .box {
-	width: 20px;
-	height: 20px;
-	background-color: black;
+  width: 20px;
+  height: 20px;
+  background-color: black;
 }
 
 .row {
-	display: flex;
+  display: flex;
 }
 
 .snake {
-	background-color: limegreen;
+  background-color: limegreen;
 }
 
 .fruit {
-	background-color: red;
+  background-color: red;
 }

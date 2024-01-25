@@ -42,16 +42,16 @@ class Snake {
   }
 
   setDirection(dir) {
-		// don't set direction if invalid input
-		switch (dir) {
-			case 'ArrowLeft':
-			case 'ArrowRight':
-			case 'ArrowUp':
-			case 'ArrowDown':
-				break
-			default:
-				return
-		}
+    // don't set direction if invalid input
+    switch (dir) {
+      case 'ArrowLeft':
+      case 'ArrowRight':
+      case 'ArrowUp':
+      case 'ArrowDown':
+        break
+      default:
+        return
+    }
 
     // don't allow snake to eat itself by going reverse
     if (this.segments.length > 0) {
