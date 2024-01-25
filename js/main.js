@@ -33,6 +33,7 @@ class Snake {
     this.x = x
     this.y = y
     this.dir = dir
+    this.dead = false
   }
 
   draw() {
@@ -41,7 +42,7 @@ class Snake {
   }
 
   setDirection(dir) {
-		// don't allow snake to eat itself by going reverse
+    // don't allow snake to eat itself by going reverse
     if (this.segments.length > 0) {
       if (this.dir === 'ArrowLeft' && dir === 'ArrowRight') return
       if (this.dir === 'ArrowRight' && dir === 'ArrowLeft') return
@@ -49,6 +50,14 @@ class Snake {
       if (this.dir === 'ArrowDown' && dir === 'ArrowUp') return
     }
     this.dir = dir
+  }
+
+  setDead() {
+    if (this.segments.length > 0) {
+      this.x = this.segments[0].x
+      this.y = this.segments[0].y
+    }
+    this.dead = true
   }
 
   move() {
@@ -99,26 +108,29 @@ function getAtCoords(x, y) {
 }
 
 function spawnFruit() {
-	fruit = new Fruit()
-	// make sure the fruit doesn't spawn on top of the snake
-	while (getAtCoords(fruit.x, fruit.y).classList.contains('snake')) {
-		fruit = new Fruit()
-	}
+  fruit = new Fruit()
+  // make sure the fruit doesn't spawn on top of the snake
+  while (getAtCoords(fruit.x, fruit.y).classList.contains('snake')) {
+    fruit = new Fruit()
+  }
 }
 
 function play() {
   snake.move()
+
   if (snake.isCollidingTail() || snake.isCollidingWalls()) {
     clearInterval(loopInterval)
-    return
+    snake.setDead()
   }
 
   if (snake.x === fruit.x && snake.y === fruit.y) {
     snake.segments.push(new Tail(snake.x, snake.y))
-		spawnFruit()
+    spawnFruit()
   }
 
   view()
+  snake.draw()
+  fruit.draw()
 }
 
 function viewGame() {
@@ -133,15 +145,26 @@ function viewGame() {
   return result
 }
 
+function viewGameOver() {
+  let result = ''
+  if (snake.dead) {
+    result += `
+			<div class="game-over">
+				<h1>Game Over!</h1>
+				<h3>Score: ${snake.segments.length}</h3>
+			</div>
+			`
+  }
+  return result
+}
+
 function view() {
   document.getElementById('app').innerHTML = `
 		<div id="container">
 			${viewGame()}
+			${viewGameOver()}
 		</div>
 	`
-
-  snake.draw()
-  fruit.draw()
 }
 
 function init() {
