@@ -1,0 +1,21 @@
+body {
+	background-color: #181A1B
+}
+
+.box {
+	width: 20px;
+	height: 20px;
+	background-color: black;
+}
+
+.row {
+	display: flex;
+}
+
+.snake {
+	background-color: limegreen;
+}
+
+.fruit {
+	background-color: red;
+}
