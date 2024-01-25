@@ -41,6 +41,7 @@ class Snake {
   }
 
   setDirection(dir) {
+		// don't allow snake to eat itself by going reverse
     if (this.segments.length > 0) {
       if (this.dir === 'ArrowLeft' && dir === 'ArrowRight') return
       if (this.dir === 'ArrowRight' && dir === 'ArrowLeft') return
@@ -97,6 +98,14 @@ function getAtCoords(x, y) {
   return document.getElementById(`c${x}_r${y}`)
 }
 
+function spawnFruit() {
+	fruit = new Fruit()
+	// make sure the fruit doesn't spawn on top of the snake
+	while (getAtCoords(fruit.x, fruit.y).classList.contains('snake')) {
+		fruit = new Fruit()
+	}
+}
+
 function play() {
   snake.move()
   if (snake.isCollidingTail() || snake.isCollidingWalls()) {
@@ -106,7 +115,7 @@ function play() {
 
   if (snake.x === fruit.x && snake.y === fruit.y) {
     snake.segments.push(new Tail(snake.x, snake.y))
-    fruit = new Fruit()
+		spawnFruit()
   }
 
   view()
@@ -126,7 +135,9 @@ function viewGame() {
 
 function view() {
   document.getElementById('app').innerHTML = `
-		${viewGame()}
+		<div id="container">
+			${viewGame()}
+		</div>
 	`
 
   snake.draw()
@@ -138,5 +149,5 @@ function init() {
   fruit = new Fruit()
   document.addEventListener('keydown', (e) => snake.setDirection(e.key))
   view()
-  loopInterval = setInterval(play, 250)
+  loopInterval = setInterval(play, 150)
 }
